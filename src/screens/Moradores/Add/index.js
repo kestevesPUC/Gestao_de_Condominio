@@ -27,7 +27,7 @@ export default function Add() {
         }
         let result = {};
 
-        result = await ajax.post(`http://54.147.200.123/api/create-user`, {
+        result = await ajax.post(`http://localhost/api/create-user`, {
             "name": name,
             "email": email,
             "token": 123456,

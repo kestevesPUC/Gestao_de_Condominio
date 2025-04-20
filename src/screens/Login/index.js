@@ -7,14 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 export default function Login() {
     const user = 'admin';
     const password = '123456';
-    const [inptUser, setInptUser] = useState();
-    const [inptPass, setInptPass] = useState();
+    const [inptUser, setInptUser] = useState('admin');
+    const [inptPass, setInptPass] = useState('123456');
 
     const navigation = useNavigation();
 
     const Login = () => {
         if(user == String(inptUser).toLocaleLowerCase() && password === inptPass) {
-            navigation.navigate('Moradores');
+            navigation.navigate('Menu');
         } else {
             Alert.alert("Erro!","Usuário ou senha incorreta!");
         }

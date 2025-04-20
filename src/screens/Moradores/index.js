@@ -9,7 +9,8 @@ import { Constants } from '../../helpers/constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-
+import { route } from '../../config/route';
+import Load from '../../components/Load';
 
 
 
@@ -26,35 +27,40 @@ export default function Moradores({ ...props }) {
   const [showModal, setShowModal] = useState(false);
   const [moradorSelected, setMoradorSelected] = useState();
   const [data, setData] = useState([]);
+  const [load, setLoad] = useState(false)
 
-  
-useFocusEffect(
-  React.useCallback(() => {
-    const fetchData = async () => {
-      // setLoading(true); 
-      // setError(null); 
-      try {
-        let result = {};
-        await axios.get(`http://54.147.200.123/api/list-user`)
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+  const fetchData = async () => {
+    setLoad(true);
+    // setError(null); 
+    try {
+      let result = {};
+      await axios.post(route.listar_usuarios)
         .then(response => {
           console.log(response.data);
 
           result = response.data;
           setData(result.data)
         })
-          .catch(error => {
-            console.error("Error sending data: ", error);
-          });
-      } catch (err) {
-        // setError(err.message);
-      } finally {
-        // setLoading(false); 
-      }
-    };
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (err) {
+      console.log(err);
 
-    fetchData();
-  }, [])
-);
+      // setError(err.message);
+    } finally {
+      // setLoad(false); 
+    }
+
+    setLoad(false)
+  };
 
   const navigation = useNavigation();
 
@@ -99,20 +105,25 @@ useFocusEffect(
 
   return (
     <>
-      <FlatList
-        ListHeaderComponent={<Header />}
-        keyExtractor={(item) => item.id.toString()}
-        data={data}
-        showsHorizontalScrollIndicator={true}
-        renderItem={(item) => <Morador data={item} openModal={openModal} setMorador={setMorador} size={30} bodyModal={bodyModal} />}
-      />
-      <View style={styles.viewButton}>
-        <TouchableOpacity style={styles.button} onPress={addMorador}>
-          <Ionicons name='add' size={30} color={"#FFF"} />
-        </TouchableOpacity>
-      </View>
-      <Modals isVisible={showModal} closeModal={closeModal} morador={moradorSelected} header={headerModal} body={bodyModal} footer={''} />
+      {
+        load ? <Load /> :
+          <>
+            <FlatList
+              ListHeaderComponent={<Header />}
+              keyExtractor={(item) => item.id.toString()}
+              data={data}
+              showsHorizontalScrollIndicator={true}
+              renderItem={(item) => <Morador data={item} openModal={openModal} setMorador={setMorador} size={30} bodyModal={bodyModal} />}
+            />
+            <View style={styles.viewButton}>
+              <TouchableOpacity style={styles.button} onPress={addMorador}>
+                <Ionicons name='add' size={30} color={"#FFF"} />
+              </TouchableOpacity>
+            </View>
+            <Modals isVisible={showModal} closeModal={closeModal} morador={moradorSelected} header={headerModal} body={bodyModal} footer={''} />
 
+          </>
+      }
     </>
   )
 }

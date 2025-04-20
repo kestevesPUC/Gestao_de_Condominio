@@ -1,5 +1,7 @@
+const url = "http://localhost:5020";
 
 export const Constants = {
+    
     //Space
     dPadding: 20,
     

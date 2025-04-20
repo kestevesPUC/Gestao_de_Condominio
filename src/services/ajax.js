@@ -4,10 +4,6 @@ import axios from 'axios'
 
 class Ajax extends Component {
 
-    constructor() {
-        super();
-    }
-
     async get (url, params)  {
         let result = {};
         await axios.post(url, params).then(response => {

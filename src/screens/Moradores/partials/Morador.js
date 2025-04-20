@@ -13,7 +13,7 @@ export default function Morador({ ...props }) {
     console.log(data);
     
     return (
-        <Box mb={3} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >
+        <Box mb={5} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >
             <TouchableOpacity activeOpacity={0.6} borderRadius={22} onPress={
                 () => {
                     navigation.navigate("Profile", [data, props.openModal, props.bodyModal])
@@ -30,7 +30,7 @@ export default function Morador({ ...props }) {
                         <HStack ml={3}>
                             <Text>Bloco: {data.bloco}</Text>
                         </HStack>
-                        <HStack ml={3}>
+                        <HStack ml={3} mb={3}>
                             <Text>Apartamento: {data.apartament_id ?? "N/A"}</Text>
                         </HStack>
                     </VStack>

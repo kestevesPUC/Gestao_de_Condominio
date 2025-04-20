@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
       paddingBottom: dPadding,
       borderBottomEndRadius: 8,
       borderBottomStartRadius: 8,
-      zIndex: 1
+      zIndex: 1,
     //   borderBottomEndRadius: 21,
     //   borderBottomLeftRadius: 21,
     },
