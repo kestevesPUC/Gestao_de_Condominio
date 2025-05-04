@@ -6,6 +6,8 @@ import { Constants } from '../../../helpers/constants';
 import { useNavigation } from '@react-navigation/native';
 import { Ajax } from '../../../services/ajax';
 import Load from '../../../components/Load';
+import axios from 'axios';
+import { route } from '../../../config/route';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -18,7 +20,6 @@ export default function Add() {
     const [foto, setFoto] = useState('');
     const [isLoad, setIsLoad] = useState(false);
 
-    const ajax = new Ajax();
 
     const click = async () => {
         if(confirmPassword != password) {
@@ -27,7 +28,7 @@ export default function Add() {
         }
         let result = {};
 
-        result = await ajax.post(`http://localhost/api/create-user`, {
+        result = await axios.post(route.user.add, {
             "name": name,
             "email": email,
             "token": 123456,

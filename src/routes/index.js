@@ -10,6 +10,7 @@ import Add from "../screens/Moradores/Add";
 import Login from "../screens/Login";
 import Load from "../components/Load";
 import Menu from "../screens/Menu";
+import Chamados from "../screens/Chamados";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function Routes() {
             <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <Stack.Screen name="Home"     component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Add"    component={Add} options={{ headerShown: false }} />
+            <Stack.Screen name="Chamados"    component={Chamados} options={{ headerShown: false }} />
             <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NativeBaseProvider>

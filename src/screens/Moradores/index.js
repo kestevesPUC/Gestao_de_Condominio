@@ -41,7 +41,7 @@ export default function Moradores({ ...props }) {
     // setError(null); 
     try {
       let result = {};
-      await axios.post(route.listar_usuarios)
+      await axios.post(route.user.listar_usuarios)
         .then(response => {
           console.log(response.data);
 
