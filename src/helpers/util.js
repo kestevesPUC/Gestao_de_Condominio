@@ -11,3 +11,8 @@ export const formatStringDateFromBr = (data) => {
         timeZone: 'America/Sao_Paulo'
     });
 }
+
+export const treatName = (name) => {
+    let arrName = name.split(' ');
+    return `${arrName[0]} ${arrName[arrName.length - 1]}`;
+}

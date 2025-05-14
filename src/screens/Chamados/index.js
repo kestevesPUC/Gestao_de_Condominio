@@ -2,16 +2,18 @@ import { View, Text, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import Header from '../../components/Header'
 import ButtonAdd from '../../components/buttons/ButtonAdd'
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { route } from '../../config/route';
 import Load from '../../components/Load';
 import Chamado from './partials/chamado';
-import { formatStringDateFromBr } from '../../helpers/util';
+import { formatStringDateFromBr, treatName } from '../../helpers/util';
 
 export default function Chamados() {
     const [load, setLoad] = useState(false);
     const [data, setData] = useState([]);
+    
+    const navigation = useNavigation();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -27,15 +29,17 @@ export default function Chamados() {
                 let arr = [];
 
                 if (result?.success) {
-                    let data = result?.data;
+                    let data = result?.data; 
 
                     data.map(c => {
+                        
+                    console.log('aqui', c);
                         arr.push({
                             id: c.id,
                             title: c.title,
-                            solicitante: "Kaio",
-                            responsavel: "Nelson",
-                            status: "Aguardando",
+                            solicitante: treatName(c.applicant.name),
+                            responsavel: treatName(c.responsible.name),
+                            status: c.status.description,
                             descricao: c.description,
                             abertura: formatStringDateFromBr(c?.created_at)
                         });
@@ -50,7 +54,7 @@ export default function Chamados() {
     }
 
     const abrirChamado = () => {
-
+        navigation.navigate('AbrirChamado')
     }
     return (
         <>

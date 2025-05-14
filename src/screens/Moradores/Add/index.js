@@ -8,6 +8,7 @@ import { Ajax } from '../../../services/ajax';
 import Load from '../../../components/Load';
 import axios from 'axios';
 import { route } from '../../../config/route';
+import Select from '../../../components/Form/Select';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -31,7 +32,6 @@ export default function Add() {
         result = await axios.post(route.user.add, {
             "name": name,
             "email": email,
-            "token": 123456,
             "password": password
         });
 
@@ -60,6 +60,10 @@ export default function Add() {
         <>
             <Header />
             <View style={styles.view}>
+                <Select arr={[{
+                    label: "teste",
+                    value: 1
+                }]} func={setBloco} title="Bloco" />
                 <View >
                     <Text>Nome Completo</Text>
                     <Input value={name} onChangeText={(text) => setName(text)} />
@@ -69,6 +73,11 @@ export default function Add() {
                     <Input value={email} onChangeText={(text) => setEmail(text)} />
                 </View>
                 <View style={styles.vInput}>
+                    <Text>Bloco</Text>
+                    <Input value={bloco} onChangeText={(text) => setBloco(text)} />
+                    <Input value={apto} onChangeText={(text) => setApto(text)} />
+                </View>
+                <View style={styles.vInput}>
                     <Text>Senha</Text>
                     <Input type='password' value={password} onChangeText={(text) => setPassword(text)} />
                 </View>
@@ -76,6 +85,7 @@ export default function Add() {
                     <Text>Confirmar Senha</Text>
                     <Input type='password' value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
                 </View>
+                
                 {/* <View style={styles.vInput}>
                 <Text>Foto</Text>
                 <Input value={foto} onChange={(text) => setFoto(text)} />

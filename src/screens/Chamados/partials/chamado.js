@@ -2,8 +2,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 
 export default function Chamado({ ...props }) {
-    console.log(props);
-
     const data = props.data
 
 
@@ -11,6 +9,7 @@ export default function Chamado({ ...props }) {
         <TouchableOpacity style={Styles.button} >
             <View style={Styles.row}>
                 <View style={Styles.column}>
+                    <Text style={Styles.title}>Solicitação:</Text>
                     <Text style={Styles.title}>Titulo:</Text>
                     <Text style={Styles.title}>Solicitante:</Text>
                     <Text style={Styles.title}>Status:</Text>
@@ -20,6 +19,7 @@ export default function Chamado({ ...props }) {
                     }
                 </View>
                 <View style={Styles.column}>
+                    <Text>{data?.id}</Text>
                     <Text>{data?.title}</Text>
                     <Text>{data?.solicitante}</Text>
                     <Text>{data?.status}</Text>

@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 25,
         color: '#FFF',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 15
     },
     buttonUser: {
         width: 44,

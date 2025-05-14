@@ -11,6 +11,7 @@ import Login from "../screens/Login";
 import Load from "../components/Load";
 import Menu from "../screens/Menu";
 import Chamados from "../screens/Chamados";
+import AbrirChamado from "../screens/Chamados/partials/abrir";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,14 @@ export default function Routes() {
             <Stack.Screen name="Home"     component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Add"    component={Add} options={{ headerShown: false }} />
             <Stack.Screen name="Chamados"    component={Chamados} options={{ headerShown: false }} />
+            <Stack.Screen name="AbrirChamado"    component={AbrirChamado} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
             <Stack.Screen name="Load" component={Load} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NativeBaseProvider>

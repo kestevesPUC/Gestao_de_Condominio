@@ -4,16 +4,19 @@ import { Platform, RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleShe
 import { NavigationContainer } from '@react-navigation/native';
 import Routes from './src/routes'
 import { Constants } from "./src/helpers/constants";
+import { DataProvider } from "./src/hooks/DataProvider";
 
 export default function App() {
 
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <StatusBar  backgroundColor={Constants.dPrimaryColor} barStyle="light-content"/>
+        <DataProvider>
+          <StatusBar backgroundColor={Constants.dPrimaryColor} barStyle="light-content" />
           <Routes />
+        </DataProvider>
       </NavigationContainer>
     </NativeBaseProvider>
-    
+
   )
 }
