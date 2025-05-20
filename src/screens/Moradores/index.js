@@ -11,17 +11,8 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { route } from '../../config/route';
 import Load from '../../components/Load';
+import { ListarUsuario } from '../../services/Methods/User';
 
-
-
-
-const buttons = [
-  {
-    id: "1",
-    title: "",
-    icon: <FontAwesome5 name='car' size={50} color={'#000'} />,
-  }
-];
 
 export default function Moradores({ ...props }) {
   const [showModal, setShowModal] = useState(false);
@@ -40,17 +31,9 @@ export default function Moradores({ ...props }) {
     setLoad(true);
     // setError(null); 
     try {
-      let result = {};
-      await axios.post(route.user.listar_usuarios)
-        .then(response => {
-          console.log(response.data);
-
-          result = response.data;
-          setData(result.data)
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      let result = await ListarUsuario();      
+      setData(result.data)
+      
     } catch (err) {
       console.log(err);
 

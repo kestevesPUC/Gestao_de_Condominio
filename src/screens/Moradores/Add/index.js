@@ -1,14 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../../components/Header'
 import { Input } from 'native-base';
 import { Constants } from '../../../helpers/constants';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Ajax } from '../../../services/ajax';
 import Load from '../../../components/Load';
 import axios from 'axios';
 import { route } from '../../../config/route';
 import Select from '../../../components/Form/Select';
+import { AddUsuario, RecuperaTipoUsuario } from '../../../services/Methods/User';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -17,83 +18,102 @@ export default function Add() {
     const [password, setPassword] = useState('');
     const [bloco, setBloco] = useState('');
     const [apto, setApto] = useState('');
+    const [perfil, setPerfil] = useState(0);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [foto, setFoto] = useState('');
     const [isLoad, setIsLoad] = useState(false);
+    const [tiposUsuario, setTiposUsuario] = useState([]);
 
+
+    useFocusEffect(
+        React.useCallback(() => {
+            recuperaTipoUsuario();
+        }, [])
+    );
+
+    const recuperaTipoUsuario = async () => {
+        setIsLoad(true);
+        let result = await RecuperaTipoUsuario();
+        let data = result?.data;
+        let arr = [{
+            label: "Selecione um perfil",
+            value: 0
+        }];
+
+        data?.map(e => {
+            arr?.push({
+                label: e?.name,
+                value: e?.id
+            });
+        })
+        setTiposUsuario(arr);
+        setIsLoad(false);
+    }
 
     const click = async () => {
-        if(confirmPassword != password) {
+        if (confirmPassword != password) {
             alert('Senhas divergentes!');
             return;
+        } else if(perfil == 0) {
+            alert('Selecione um perfil!');
+            return;
         }
-        let result = {};
+        let result = await AddUsuario(name, password, perfil, bloco, apto, email);
 
-        result = await axios.post(route.user.add, {
-            "name": name,
-            "email": email,
-            "password": password
-        });
-
-        console.log(result);
-        
-
-        if(result.success) {
-            alert( result.message);
+        if (result.success) {
+            alert("Sucesso!",result.message);
         } else {
-            
-            alert( result.message);
+            alert("Erro!",result.message);
         }
 
 
-        // navigation.navigate('Moradores' ,  {
-        //     data: {
-        //         id: 10,
-        //         fullName: name,
-        //         bloco: bloco,
-        //         apartamento: apto, 
-        //         avatarUrl: foto}
-
-        // });
     }
     return (
         <>
-            <Header />
-            <View style={styles.view}>
-                <Select arr={[{
-                    label: "teste",
-                    value: 1
-                }]} func={setBloco} title="Bloco" />
-                <View >
-                    <Text>Nome Completo</Text>
-                    <Input value={name} onChangeText={(text) => setName(text)} />
-                </View>
-                <View style={styles.vInput}>
-                    <Text>E-Mail</Text>
-                    <Input value={email} onChangeText={(text) => setEmail(text)} />
-                </View>
-                <View style={styles.vInput}>
-                    <Text>Bloco</Text>
-                    <Input value={bloco} onChangeText={(text) => setBloco(text)} />
-                    <Input value={apto} onChangeText={(text) => setApto(text)} />
-                </View>
-                <View style={styles.vInput}>
-                    <Text>Senha</Text>
-                    <Input type='password' value={password} onChangeText={(text) => setPassword(text)} />
-                </View>
-                <View style={styles.vInput}>
-                    <Text>Confirmar Senha</Text>
-                    <Input type='password' value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
-                </View>
-                
-                {/* <View style={styles.vInput}>
-                <Text>Foto</Text>
-                <Input value={foto} onChange={(text) => setFoto(text)} />
-            </View> */}
-            </View>
-            <TouchableOpacity style={styles.button} onPress={() => click()}>
-                <Text style={styles.textButton}>Salvar</Text>
-            </TouchableOpacity>
+            {
+
+                isLoad ? <Load /> :
+                    <>
+                        <Header />
+                        <View style={styles.view}>
+                            <View >
+                                <Text>Nome Completo</Text>
+                                <Input value={name} onChangeText={(text) => setName(text)} />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Select arr={tiposUsuario} value={perfil} func={setPerfil} title="Perfil" />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Text>E-Mail</Text>
+                                <Input value={email} keyboardType="email-address" onChangeText={(text) => setEmail(text)} />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Text>Bloco</Text>
+                                <Input value={bloco} keyboardType="numeric" type='number' onChangeText={(text) => setBloco(text)} />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Text>Apartamento</Text>
+                                <Input value={apto} keyboardType="numeric" type='number' onChangeText={(text) => setApto(text)} />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Text>Senha</Text>
+                                <Input type='password' value={password} onChangeText={(text) => setPassword(text)} />
+                            </View>
+                            <View style={styles.vInput}>
+                                <Text>Confirmar Senha</Text>
+                                <Input type='password' value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
+                            </View>
+
+                            {/* <View style={styles.vInput}>
+                        <Text>Foto</Text>
+                        <Input value={foto} onChange={(text) => setFoto(text)} />
+                    </View> */}
+                        </View>
+                        <TouchableOpacity style={styles.button} onPress={() => click()}>
+                            <Text style={styles.textButton}>Salvar</Text>
+                        </TouchableOpacity>
+                    </>
+            }
         </>
     )
 }

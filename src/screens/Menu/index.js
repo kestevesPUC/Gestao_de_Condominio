@@ -17,6 +17,7 @@ export default function Menu() {
         <ButtonMenu title={'Funcionários'} method={() => navigation.navigate('Funcionarios')} />
         <ButtonMenu title={'Chamados'}  method={() => navigation.navigate('Chamados')}   />
         <ButtonMenu title={'Comunicados'}  method={() => navigation.navigate('Comunicados')}   />
+        <ButtonMenu title={'Administração'}  method={() => navigation.navigate('Administracao')}   />
       </View>
     </View>
   )
@@ -32,5 +33,5 @@ const Styles = StyleSheet.create({
   },
   row: {
     padding: 5
-  }
+  },
 });

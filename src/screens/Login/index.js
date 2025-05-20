@@ -1,19 +1,22 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Constants } from '../../helpers/constants';
 import { Image, Input } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import { DataContext } from '../../hooks/DataProvider';
+import { LoginUser } from '../../services/Methods/Auth';
 
 export default function Login() {
-    const user = 'admin';
-    const password = '123456';
-    const [inptUser, setInptUser] = useState('admin');
+    const [inptUser, setInptUser] = useState('kesteves.dev@gmail.com');
     const [inptPass, setInptPass] = useState('123456');
+    const { setUsuario } = useContext(DataContext);
 
     const navigation = useNavigation();
 
-    const Login = () => {
-        if(user == String(inptUser).toLocaleLowerCase() && password === inptPass) {
+    const Login = async() => {
+        const result = await LoginUser(inptUser, inptPass);
+        if(result?.success) {
+            setUsuario(result.data);
             navigation.navigate('Menu');
         } else {
             Alert.alert("Erro!","Usuário ou senha incorreta!");
@@ -26,7 +29,7 @@ export default function Login() {
             <View>
                 <Image  source={require('../../../assets/logo.png')}/>
                 <View style={styles.viewInput}>
-                    <Text style={styles.label}  >User</Text>
+                    <Text style={styles.label}  >E-mail</Text>
                     <Input bgColor={'#DADADA'} value={inptUser} onChangeText={(text) => setInptUser(text)}/>
                 </View>
                 <View style={styles.viewInput}>

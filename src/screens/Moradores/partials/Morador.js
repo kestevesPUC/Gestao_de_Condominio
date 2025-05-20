@@ -28,10 +28,10 @@ export default function Morador({ ...props }) {
                             <Text fontWeight={'bold'} fontSize={17}>{data.name}</Text>
                         </HStack>
                         <HStack ml={3}>
-                            <Text>Bloco: {data.bloco}</Text>
+                            <Text>Bloco: {data?.apartment.bloco ?? "N/A"}</Text>
                         </HStack>
                         <HStack ml={3} mb={3}>
-                            <Text>Apartamento: {data.apartament_id ?? "N/A"}</Text>
+                            <Text>Apartamento: {data?.apartment.number ?? "N/A"}</Text>
                         </HStack>
                     </VStack>
                 </HStack>

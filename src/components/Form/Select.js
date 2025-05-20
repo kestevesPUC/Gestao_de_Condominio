@@ -2,16 +2,14 @@ import { View, Text, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 
-export default function Select({ ...props }) {
+export default function Select({ ...props }) {    
 
-
-    const [valorSelecionado, setValorSelecionado] = useState();
     return (
         <View style={styles.inputWrapper}>
             <Text style={styles.label}>{props?.title}</Text>
             <Picker
-                selectedValue={valorSelecionado}
-                onValueChange={(itemValue, itemIndex) => setValorSelecionado(itemValue)}
+                selectedValue={props?.value}
+                onValueChange={(itemValue, itemIndex) => props?.func(itemValue)}
                 style={styles.picker}
             >
                 {
