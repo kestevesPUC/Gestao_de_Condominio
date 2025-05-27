@@ -14,6 +14,7 @@ import Chamados from "../screens/Chamados";
 import AbrirChamado from "../screens/Chamados/partials/abrir";
 import Administracao from "../screens/Administracao";
 import addPerfil from "../screens/Administracao/partials/addPerfil";
+import DetalhesChamado from "../screens/Chamados/partials/detalhesChamado";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,14 @@ export default function Routes() {
                 
               }} />
             <Stack.Screen name="addPerfil"    component={addPerfil} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="detalhesChamado"    component={DetalhesChamado} options={{ 
                 headerShown: true, 
                 headerBackTitleVisible: false, 
                 title: '', 

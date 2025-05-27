@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import { 
   Platform,
     StyleSheet,
@@ -7,6 +7,8 @@ import {
 import { Box, StatusBar, Image, HStack, Text} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Constants } from '../../helpers/constants';
+import { DataContext } from '../../hooks/DataProvider';
+import { treatName } from '../../helpers/util';
 
 
 const dPadding = 8;
@@ -14,9 +16,11 @@ const StatusBarHeigth = StatusBar.currentHeigth ? statusbar.currentHeigth : 24;
 const size = 20;
 
 export default function Header() {
-    
+  const { usuario } = useContext(DataContext);
   const navigation = useNavigation();
     const [visible, setVisible] = useState(false);
+
+    
 
     const toggleDropdown = () => {
       setVisible(!visible);
@@ -49,7 +53,7 @@ export default function Header() {
   return (
         <Box style={styles.container} >
             <Box style={styles.content} mr={5}>
-                <Text style={styles.username} pt={Platform.OS == 'android' ? 5 : 10} pb={Platform.OS == 'android' ? 5 : 10}>Kaio Gomes</Text>
+                <Text style={styles.username} pt={Platform.OS == 'android' ? 5 : 10} pb={Platform.OS == 'android' ? 5 : 10}>{treatName(usuario.name)}</Text>
                 <TouchableOpacity activeOpacity={0.6} style={styles.buttonUser} onPress={toggleDropdown} >
                 <Image key={size} size={size} resizeMode="cover" source={{
                     uri: ''

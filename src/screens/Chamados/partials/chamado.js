@@ -1,12 +1,18 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 export default function Chamado({ ...props }) {
+    
     const data = props.data
+    const navigation = useNavigation();
 
+    const clickChamado = () => {
+        navigation.navigate("detalhesChamado", data);
+    }
 
     return (
-        <TouchableOpacity style={Styles.button} >
+        <TouchableOpacity style={Styles.button} onPress={clickChamado} >
             <View style={Styles.row}>
                 <View style={Styles.column}>
                     <Text style={Styles.title}>Solicitação:</Text>
@@ -25,7 +31,7 @@ export default function Chamado({ ...props }) {
                     <Text>{data?.status}</Text>
                     <Text>{data?.abertura}</Text>
                     {
-                        data?.responsavel ? <Text>{data?.responsavel}</Text> : null 
+                        data?.responsavel ? <Text>{data?.responsavel}</Text> : null
                     }
                 </View>
             </View>
@@ -34,7 +40,7 @@ export default function Chamado({ ...props }) {
 }
 
 const Styles = StyleSheet.create({
-    title:{
+    title: {
         fontWeight: "bold"
     },
     row: {

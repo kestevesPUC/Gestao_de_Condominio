@@ -12,6 +12,7 @@ import { formatStringDateFromBr, treatName } from '../../helpers/util';
 export default function Chamados() {
     const [load, setLoad] = useState(false);
     const [data, setData] = useState([]);
+    const [dataBruto, setDataBruto] = useState([]);
     
     const navigation = useNavigation();
 
@@ -25,20 +26,19 @@ export default function Chamados() {
         setLoad(true);
         await axios.post(route.called.listar_chamados)
             .then((response) => {
-                let result = response.data;
+                let result = response?.data;
                 let arr = [];
 
                 if (result?.success) {
                     let data = result?.data; 
-
+                    setDataBruto(data)
+                    
                     data.map(c => {
-                        
-                    console.log('aqui', c);
                         arr.push({
                             id: c.id,
                             title: c.title,
-                            solicitante: treatName(c.applicant.name),
-                            responsavel: treatName(c.responsible.name),
+                            solicitante: treatName(c?.applicant?.name),
+                            responsavel: treatName(c?.responsible?.name),
                             status: c.status.description,
                             descricao: c.description,
                             abertura: formatStringDateFromBr(c?.created_at)
@@ -63,9 +63,10 @@ export default function Chamados() {
                     <>
                         <Header />
                         <FlatList
+                            keyExtractor={(e) => e.id}
                             data={data}
                             renderItem={
-                                ({ item }) => <Chamado data={item} />
+                                ({ item }) => <Chamado data={item}  dataBruto={dataBruto} getChamados={getChamados} />
                             } 
                         />
                         <ButtonAdd func={abrirChamado} />

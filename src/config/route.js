@@ -11,7 +11,10 @@ export const route = {
         listar_vehicles: `${url}/api/vehicle/list-all`
     },
     called: {
-        listar_chamados: `${url}/api/called/list-all`
+        listar_chamados: `${url}/api/called/list-all`,
+        create: `${url}/api/called/create`,
+        ocurrences: `${url}/api/called/list-all-ocurrence`,
+        iniciar: `${url}/api/called/start`,
     },
     administracao: {
         perfis: `${url}/api/administracao/list-all`,

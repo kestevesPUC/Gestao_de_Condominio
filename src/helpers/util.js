@@ -13,6 +13,7 @@ export const formatStringDateFromBr = (data) => {
 }
 
 export const treatName = (name) => {
+    if(name == "" || name == 'undefined' || name == undefined) return "";
     let arrName = name.split(' ');
     return `${arrName[0]} ${arrName[arrName.length - 1]}`;
 }

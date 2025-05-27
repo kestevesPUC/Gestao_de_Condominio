@@ -1,9 +1,33 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
+import React, { useContext, useState } from 'react'
 import Header from '../../../components/Header'
 import { Constants } from '../../../helpers/constants';
+import axios from 'axios';
+import { route } from '../../../config/route';
+import { DataContext } from '../../../hooks/DataProvider';
 
 export default function AbrirChamado() {
+    const { usuario } = useContext(DataContext)
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const clickAbrirChamado = async () => {        
+        const result = await axios.post(route.called.create, {
+            title: title,
+            description: description,
+            applicantId: usuario.id
+        })
+        .then((response) => {
+            let result = response.data;
+            if(result.success) {
+
+                Alert.alert("Sucesso!", result.message)
+            }else {
+                
+                Alert.alert("Erro!", result.message)
+            }
+        });
+    }
     return (
         <>
             <Header />
@@ -11,22 +35,22 @@ export default function AbrirChamado() {
                 <View style={Styles.container}>
                     <View style={Styles.row}>
                         <View style={Styles.column}>
-                            <Text style={Styles.title}>Abrir Chamado</Text>
+                            <Text style={Styles.title} >Abrir Chamado</Text>
                         </View>
                     </View>
                     <View style={Styles.row}>
                         <View style={Styles.column}>
                             <Text style={Styles.label}>Titulo:</Text>
-                            <TextInput style={Styles.input}></TextInput>
+                            <TextInput onChangeText={(e) => setTitle(e) } style={Styles.input}></TextInput>
                         </View>
                     </View>
                     <View style={Styles.row}>
                         <View style={Styles.column}>
                             <Text style={Styles.label}>Descrição:</Text>
                             <TextInput
-                                multiline={true} 
+                                multiline={true}
                                 numberOfLines={10}
-                                
+                                onChangeText={(e) => setDescription(e) }
                                 placeholder=" Digite sua mensagem..."
                                 style={Styles.textArea}
                             />
@@ -34,7 +58,7 @@ export default function AbrirChamado() {
                     </View>
                     <View style={Styles.row}>
                         <View style={Styles.column}>
-                            <TouchableOpacity style={Styles.button}>
+                            <TouchableOpacity style={Styles.button} onPress={clickAbrirChamado}>
                                 <Text style={Styles.textButton}>Abrir Chamado</Text>
                             </TouchableOpacity>
                         </View>
@@ -78,7 +102,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 5,
         marginRight: 5
-        
+
     },
     textArea: {
         borderColor: "#DEDEDE",

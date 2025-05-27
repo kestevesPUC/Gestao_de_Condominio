@@ -19,10 +19,10 @@ export const AddUsuario = async (name, password, perfil, bloco, apto, email) => 
     await axios.post(route.user.add, {
         "name": name,
         "password": password,
-        "perfil": perfil,
+        "profile": perfil,
         "bloco": bloco,
         "apto": apto,
-        "email": email
+        "email": email,
     }).then((response) => {
         result = response.data;
     });
