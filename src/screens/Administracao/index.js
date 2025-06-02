@@ -22,8 +22,7 @@ export default function Administracao() {
         setLoad(true);
 
         const result = await ListarPerfis();
-        console.log(result?.data);
-
+        
         if (result?.success) {
             setPerfis(result?.data)
         }

@@ -6,11 +6,10 @@ import { Modals } from '../../../components/Modals';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function Morador({ ...props }) {
+export default function Morador({ ...props }) {    
     const navigation = useNavigation();
     const data = props.data.item;
 
-    console.log(data);
     
     return (
         <Box mb={5} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >

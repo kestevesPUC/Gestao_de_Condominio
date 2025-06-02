@@ -21,6 +21,7 @@ const options = [
 
 export default function Veiculo(props) {
     const data = props.route.params;
+    
   return (
     <Box flex={1} >
         <HStack  h={300} >
@@ -31,7 +32,7 @@ export default function Veiculo(props) {
         </Box>
         <Box flex={1} >
             <VStack flex={2} >
-                <OptionsVeiculo data={options[0]} />
+                <OptionsVeiculo data={options[0]} proprietario={data.proprietario}/>
             </VStack>
             <VStack flex={2}>
                 <OptionsVeiculo data={options[1]} />

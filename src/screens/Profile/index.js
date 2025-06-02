@@ -9,7 +9,10 @@ import Option from './partials/Options';
 import { FontAwesome5,Foundation } from '@expo/vector-icons'; 
 
 export default function Profile({ ...props }) {
+  
   const profile = props.route.params;
+  console.log(profile);
+  
   const [data, setData] = useState([
     {
       id: '1',

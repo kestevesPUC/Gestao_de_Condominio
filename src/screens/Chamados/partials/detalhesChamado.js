@@ -1,26 +1,40 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Header from '../../../components/Header'
 import { Constants } from '../../../helpers/constants';
 import axios from 'axios';
 import { route } from '../../../config/route';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Load from '../../../components/Load';
 import { FlatList } from 'native-base';
 import { formatStringDateFromBr } from '../../../helpers/util';
 import { DataContext } from '../../../hooks/DataProvider';
+import Select from '../../../components/Form/Select';
 
 export default function DetalhesChamado({ ...props }) {
     const chamado = props.route.params;
+
     const { usuario } = useContext(DataContext)
     const [historico, setHistorico] = useState();
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState([]);
+    const [statusSelected, setStatusSelected] = useState(chamado.status_id);
     const [isLoad, setIsLoad] = useState(false);
+    const [tela, setTela] = useState(1);
 
+    const navigation = useNavigation();
     useFocusEffect(
         React.useCallback(() => {
-            getHistorico();
+            initial();
         }, [])
     );
+
+    const initial = async () => {
+        setIsLoad(true);
+        await getHistorico();
+        await getStatus();
+        setIsLoad(false);
+    }
 
     const clickIniciar = async () => {
         const result = await axios.post(route.called.iniciar, {
@@ -29,7 +43,7 @@ export default function DetalhesChamado({ ...props }) {
         }).then((response) => {
             let data = response.data;
 
-            if(data.success) {
+            if (data.success) {
                 Alert.alert("Sucesso!", data.message);
                 props.route.params.getChamados();
             } else {
@@ -38,16 +52,52 @@ export default function DetalhesChamado({ ...props }) {
         });
     }
 
+    const clickAtualizar = async () => {
+        await axios.post(route.called.atualizar, {
+            id: chamado.id,
+            message: description,
+            user: usuario.id,
+            status: statusSelected
+        }).then((response) => {
+            let data = response.data;
+
+            if(data.success) {
+                Alert.alert("Sucesso!", data.message);
+                navigation.goBack();
+            } else {
+                Alert.alert("Erro!", data.message);
+            }
+        });
+    }
+
     const getHistorico = async () => {
-        setIsLoad(true);
-        const result = axios.post(route.called.ocurrences, {
+        await axios.post(route.called.ocurrences, {
             id: chamado.id
         })
             .then((response) => {
                 setHistorico(response.data)
 
             });
-        setIsLoad(false);
+    }
+
+    const getStatus = async () => {
+        await axios.post(route.called.status)
+            .then((response) => {
+                let data = response.data;
+                let arr = [{
+                    label: "Selecione um Status",
+                    value: 0
+                }];
+
+                data?.map(s => {
+                    arr?.push({
+                        label: s.description,
+                        value: s.id
+                    });
+                });
+
+                setStatus(arr)
+            });
     }
 
     return (
@@ -56,68 +106,110 @@ export default function DetalhesChamado({ ...props }) {
                 isLoad ? <Load /> :
                     <>
                         <Header />
-                        <View style={Styles.container}>
-                            <View style={Styles.row}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.title} >Chamdo: {chamado.id}</Text>
-                                </View>
-                            </View>
-                            <View style={Styles.row}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.label}>Titulo: {chamado.title}</Text>
-                                </View>
-                            </View>
-                            <View style={Styles.row}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.label}>Descrição: {chamado.description}</Text>
-                                </View>
-                            </View>
-                            <View style={Styles.row}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.label}>Data: {chamado.abertura}</Text>
-                                </View>
-                            </View>
-                            <View style={Styles.row}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.label}>Status: {chamado.status}</Text>
-                                </View>
-                            </View>
-
-
-                        </View>
-                        <>
-                            <View style={Styles.row2}>
-                                <View style={Styles.column}>
-                                    <Text style={Styles.title} >Histórico</Text>
-                                </View>
-                            </View>
-                            <FlatList
-                                keyExtractor={(e) => e.id}
-                                data={historico}
-                                renderItem={({ item, index }) =>
-                                    <View style={Styles.row2}>
-                                        <View>
-                                            <Text>{++index}</Text>
+                        {
+                            tela == 1 ?
+                                <View style={Styles.container}>
+                                    <View style={Styles.row}>
+                                        <View style={Styles.column}>
+                                            <Text style={Styles.title} >Chamdo: {chamado.id}</Text>
                                         </View>
-                                        <View>
-                                            <Text>{item.message}</Text>
+                                    </View>
+                                    <View style={Styles.row}>
+                                        <View style={Styles.column}>
+                                            <Text style={Styles.label}>Titulo: {chamado.title}</Text>
                                         </View>
-                                        <View>
-                                            <Text>{formatStringDateFromBr(item.created_at)}</Text>
+                                    </View>
+                                    <View style={Styles.row}>
+                                        <View style={Styles.column}>
+                                            <Text style={Styles.label}>Descrição: {chamado.description}</Text>
                                         </View>
+                                    </View>
+                                    <View style={Styles.row}>
+                                        <View style={Styles.column}>
+                                            <Text style={Styles.label}>Data: {chamado.abertura}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={Styles.vInput}>
+                                        
+                                        {
+                                            chamado.status_id != 3  && chamado.status_id != 1 ?
+                                            <Select arr={status} value={statusSelected} func={setStatusSelected} title="" />
+                                            : <Text style={Styles.label}>Status: {chamado.status_description2}</Text>
+                                        }
                                     </View>
 
 
+                                    <>
+                                        {
+                                            chamado.status_id != 3 && chamado.status_id != 1 ?
+                                                <View style={Styles.row3}>
+                                                    <View style={Styles.column}>
+                                                        <Text style={Styles.label}>Observação:</Text>
+                                                        <TextInput
+                                                            multiline={true}
+                                                            numberOfLines={10}
+                                                            onChangeText={(e) => setDescription(e)}
+                                                            placeholder=" Digite sua mensagem..."
+                                                            style={Styles.textArea}
+                                                        />
+                                                    </View>
+                                                </View> : null
+                                        }
+                                    </>
+                                </View> :
 
-                                }
-                            />
-                        </>
-                        {
-                            chamado.status.toLowerCase() == "aguardando" ?
-                                <TouchableOpacity style={Styles.button} onPress={clickIniciar}>
-                                    <Text style={Styles.textButton}>Iniciar atendimento</Text>
-                                </TouchableOpacity> : null
+                                tela == 2 ?
+                                    <>
+                                        <View style={Styles.row2}>
+                                            <View style={Styles.column}>
+                                                <Text style={Styles.title} >Histórico</Text>
+                                            </View>
+                                        </View>
+                                        <FlatList
+                                            keyExtractor={(e) => e.id}
+                                            data={historico}
+                                            renderItem={({ item, index }) =>
+                                                <View style={Styles.row2}>
+                                                    <View>
+                                                        <Text>{++index}</Text>
+                                                    </View>
+                                                    <View>
+                                                        <Text>{item.status.description2}</Text>
+                                                    </View>
+                                                    <View>
+                                                        <Text>{item.message}</Text>
+                                                    </View>
+                                                    <View>
+                                                        <Text>{formatStringDateFromBr(item.created_at)}</Text>
+                                                    </View>
+                                                </View>
+                                            }
+                                        />
+                                    </> : null
                         }
+                        <>
+                            {
+                                chamado.status_id == 1 ?
+                                    <TouchableOpacity style={Styles.button} onPress={clickIniciar}>
+                                        <Text style={Styles.textButton}>Iniciar atendimento</Text>
+                                    </TouchableOpacity> :
+                                    <>
+                                        {
+                                            tela == 1 && chamado.status_id != 3 ?
+                                                <TouchableOpacity style={Styles.button} onPress={clickAtualizar}>
+                                                    <Text style={Styles.textButton}>Atualizar</Text>
+                                                </TouchableOpacity> : null
+                                        }
+
+                                        <TouchableOpacity style={Styles.button2} onPress={() => setTela((tela == 1 ? 2 : 1))}>
+                                            {
+                                                tela == 1 ? <Text style={Styles.textButton}>Histórico</Text> :
+                                                    <Text style={Styles.textButton}>Voltar</Text>
+                                            }
+                                        </TouchableOpacity>
+                                    </>
+                            }
+                        </>
                     </>
             }
         </>
@@ -140,6 +232,11 @@ const Styles = StyleSheet.create({
         marginTop: 5,
         justifyContent: 'space-between'
     },
+    row3: {
+        flexDirection: 'row',
+        marginTop: 20,
+        justifyContent: 'space-between'
+    },
     column: {
         flexDirection: 'column',
         width: '100%'
@@ -147,6 +244,9 @@ const Styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    vInput: {
+        marginTop: 5
     },
     label: {
 
@@ -166,17 +266,27 @@ const Styles = StyleSheet.create({
         marginRight: 5
 
     },
-    textArea: {
-        borderColor: "#DEDEDE",
-        borderWidth: 2,
-        width: '100%',
-        borderRadius: 8,
-        textAlignVertical: 'top',
+    button2: {
+        backgroundColor: Constants.dGray,
+        borderRadius: 22,
+        marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 5,
+        marginRight: 5
+
     },
     input: {
         borderColor: "#DEDEDE",
         borderWidth: 2,
         width: '100%',
         borderRadius: 8
+    },
+    textArea: {
+        borderColor: "#DEDEDE",
+        borderWidth: 2,
+        width: '100%',
+        borderRadius: 8,
+        textAlignVertical: 'top',
     },
 });

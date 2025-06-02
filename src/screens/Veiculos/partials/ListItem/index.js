@@ -11,7 +11,6 @@ export default function ListItem({ ...props }) {
     const data = props.data.item;
     
     const clickVeiculo = () => {
-        // Action
         navigation.navigate('Veiculo', data);
 
     }

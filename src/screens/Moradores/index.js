@@ -1,5 +1,5 @@
-import { Box, Button, FlatList, Text, View } from 'native-base';
-import React, { useState } from 'react';
+import { Box, Button, FlatList, Input, Text, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Morador from './partials/Morador';
 import { Modals } from '../../components/Modals';
@@ -19,7 +19,9 @@ export default function Moradores({ ...props }) {
   const [moradorSelected, setMoradorSelected] = useState();
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
+  const [search, setSearch] = useState("")
 
+  const [filteredData, setFilteredData] = useState(data);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -31,9 +33,10 @@ export default function Moradores({ ...props }) {
     setLoad(true);
     // setError(null); 
     try {
-      let result = await ListarUsuario();      
+      const result = await ListarUsuario();
       setData(result.data)
-      
+      setFilteredData(result.data)      
+
     } catch (err) {
       console.log(err);
 
@@ -78,9 +81,19 @@ export default function Moradores({ ...props }) {
     )
   }
 
-  // const updateListMoradores = (data) => {
-  //   console.log(data);
-  // }
+  const searchMorador = async (search) => {
+    setSearch(search)
+    if (search === '') {
+      setFilteredData(data);
+    } else {
+      const filtered = await data.filter(item =>
+        item?.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }
+
+
 
   const addMorador = () => {
     navigation.navigate('Add');
@@ -91,10 +104,15 @@ export default function Moradores({ ...props }) {
       {
         load ? <Load /> :
           <>
+            <Header />
+            <>
+                  <View style={{ padding: 10 }}>
+                    <Input placeholder='Pesquisar Morador' value={search} onChangeText={async (text) => searchMorador(text)} />
+                  </View>
+                </>
             <FlatList
-              ListHeaderComponent={<Header />}
               keyExtractor={(item) => item.id.toString()}
-              data={data}
+              data={filteredData}
               showsHorizontalScrollIndicator={true}
               renderItem={(item) => <Morador data={item} openModal={openModal} setMorador={setMorador} size={30} bodyModal={bodyModal} />}
             />

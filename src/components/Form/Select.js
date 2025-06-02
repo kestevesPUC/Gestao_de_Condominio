@@ -2,24 +2,28 @@ import { View, Text, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 
-export default function Select({ ...props }) {    
+export default function Select({ ...props }) {
 
     return (
-        <View style={styles.inputWrapper}>
-            <Text style={styles.label}>{props?.title}</Text>
-            <Picker
-                selectedValue={props?.value}
-                onValueChange={(itemValue, itemIndex) => props?.func(itemValue)}
-                style={styles.picker}
-            >
-                {
-                    props?.arr?.map(v => (
-                        <Picker.Item label={v.label} value={v.value} />
-                    ))
-                }
+        <>
+            <View>
+                <Text style={styles.label}>{props?.title}</Text>
+            </View>
+            <View style={styles.inputWrapper}>
+                <Picker
+                    selectedValue={props?.value}
+                    onValueChange={(itemValue, itemIndex) => props?.func(itemValue)}
+                    style={styles.picker}
+                >
+                    {
+                        props?.arr?.map(v => (
+                            <Picker.Item label={v.label} value={v.value} />
+                        ))
+                    }
 
-            </Picker>
-        </View>
+                </Picker>
+            </View>
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import Load from '../../../components/Load'
 import Header from '../../../components/Header'
@@ -17,8 +17,8 @@ export default function addPerfil() {
         const result = await CriarPerfil(name, description);
         setIsLoad(false);
 
-        if(result?.success) {
-            
+        if (result?.success) {
+            Alert.alert("Sucesso!", result.message)
         }
     }
 

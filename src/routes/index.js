@@ -15,6 +15,16 @@ import AbrirChamado from "../screens/Chamados/partials/abrir";
 import Administracao from "../screens/Administracao";
 import addPerfil from "../screens/Administracao/partials/addPerfil";
 import DetalhesChamado from "../screens/Chamados/partials/detalhesChamado";
+import Funcionarios from "../screens/Funcionarios";
+import Comunicados from "../screens/Comunicados";
+import AddFuncionario from "../screens/Funcionarios/partials/AddFuncionario";
+import AddVeiculo from "../screens/Veiculos/partials/AddVeiculo";
+import Morador from "../screens/Moradores/partials/Morador";
+import Visitantes from "../screens/Visitantes";
+import CadastrarVisitante from "../screens/Visitantes/partials/addVisitante";
+import ReservaArea from "../screens/ReservaArea";
+import AddArea from "../screens/ReservaArea/partials/add";
+import dadosVeiculo from "../screens/Veiculos/partials/dadosVeiculo";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +66,86 @@ export default function Routes() {
                 
               }} />
             <Stack.Screen name="detalhesChamado"    component={DetalhesChamado} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Funcionarios"    component={Funcionarios} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Comunicados"    component={Comunicados} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="CriarFuncionario"    component={AddFuncionario} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="CriarVeiculo"    component={AddVeiculo} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Morador"    component={Morador} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Visitantes"    component={Visitantes} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="CadastrarVisitante"    component={CadastrarVisitante} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="AddArea"    component={AddArea} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Reservas"    component={ReservaArea} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="dadosVeiculo"    component={dadosVeiculo} options={{ 
                 headerShown: true, 
                 headerBackTitleVisible: false, 
                 title: '', 

@@ -43,3 +43,30 @@ export const ListarUsuario = async () => {
 
     return result;
 }
+export const GetUser = async (id) => {
+    let result = {};
+
+    await axios.post(route.user.get_usuario, id)
+        .then(response => {
+            result = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    return result;
+}
+
+export const RegistrarVisitante = async (params) => {
+    let result = {};
+
+    await axios.post(route.visitor.registraVisita, params)
+        .then(response => {
+            result = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    return result;
+}

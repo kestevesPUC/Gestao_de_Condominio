@@ -11,7 +11,7 @@ import { route } from '../../../config/route';
 import Select from '../../../components/Form/Select';
 import { AddUsuario, RecuperaTipoUsuario } from '../../../services/Methods/User';
 
-export default function Add() {
+export default function AddFuncionario() {
     const navigation = useNavigation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -22,44 +22,48 @@ export default function Add() {
     const [foto, setFoto] = useState('');
     const [isLoad, setIsLoad] = useState(false);
     const [tiposUsuario, setTiposUsuario] = useState([]);
+    const [perfil, setPerfil] = useState(0);
 
 
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         recuperaTipoUsuario();
-    //     }, [])
-    // );
+    useFocusEffect(
+        React.useCallback(() => {
+            recuperaTipoUsuario();
+        }, [])
+    );
 
-    // const recuperaTipoUsuario = async () => {
-    //     setIsLoad(true);
-    //     let result = await RecuperaTipoUsuario();
-    //     let data = result?.data;
-    //     let arr = [{
-    //         label: "Selecione um perfil",
-    //         value: 0
-    //     }];
+    const recuperaTipoUsuario = async () => {
+        setIsLoad(true);
+        let result = await RecuperaTipoUsuario();
+        let data = result?.data;
+        let arr = [{
+            label: "Selecione um perfil",
+            value: 0
+        }];
 
-    //     data?.map(e => {
-    //         arr?.push({
-    //             label: e?.name,
-    //             value: e?.id
-    //         });
-    //     })
-    //     setTiposUsuario(arr);
-    //     setIsLoad(false);
-    // }
+        data?.map(e => {
+            arr?.push({
+                label: e?.name,
+                value: e?.id
+            });
+        })
+        setTiposUsuario(arr);
+        setIsLoad(false);
+    }
 
     const click = async () => {
         if (confirmPassword != password) {
             alert('Senhas divergentes!');
             return;
+        } else if (perfil == 0) {
+            alert('Selecione um perfil');
+            return;
         }
-        let result = await AddUsuario(name, password, 2, bloco, apto, email);
+        let result = await AddUsuario(name, password, perfil, bloco, apto, email);
 
         if (result.success) {
-            alert("Sucesso!",result.message);
+            alert("Sucesso!", result.message);
         } else {
-            alert("Erro!",result.message);
+            alert("Erro!", result.message);
         }
 
 
@@ -81,12 +85,7 @@ export default function Add() {
                                 <Input value={email} keyboardType="email-address" onChangeText={(text) => setEmail(text)} />
                             </View>
                             <View style={styles.vInput}>
-                                <Text>Bloco</Text>
-                                <Input value={bloco} keyboardType="numeric" type='number' onChangeText={(text) => setBloco(text)} />
-                            </View>
-                            <View style={styles.vInput}>
-                                <Text>Apartamento</Text>
-                                <Input value={apto} keyboardType="numeric" type='number' onChangeText={(text) => setApto(text)} />
+                                <Select arr={tiposUsuario} value={perfil} func={setPerfil} title="Perfil" />
                             </View>
                             <View style={styles.vInput}>
                                 <Text>Senha</Text>
@@ -97,10 +96,6 @@ export default function Add() {
                                 <Input type='password' value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
                             </View>
 
-                            {/* <View style={styles.vInput}>
-                        <Text>Foto</Text>
-                        <Input value={foto} onChange={(text) => setFoto(text)} />
-                    </View> */}
                         </View>
                         <TouchableOpacity style={styles.button} onPress={() => click()}>
                             <Text style={styles.textButton}>Salvar</Text>

@@ -18,6 +18,8 @@ export default function Menu() {
         <ButtonMenu title={'Chamados'}  method={() => navigation.navigate('Chamados')}   />
         <ButtonMenu title={'Comunicados'}  method={() => navigation.navigate('Comunicados')}   />
         <ButtonMenu title={'Administração'}  method={() => navigation.navigate('Administracao')}   />
+        <ButtonMenu title={'Visitantes'}  method={() => navigation.navigate('Visitantes')}   />
+        <ButtonMenu title={'Reservar Area'}  method={() => navigation.navigate('Reservas')}   />
       </View>
     </View>
   )

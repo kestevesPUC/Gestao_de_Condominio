@@ -31,9 +31,12 @@ export default function Chamados() {
 
                 if (result?.success) {
                     let data = result?.data; 
-                    setDataBruto(data)
+                    setDataBruto(data);
+                    
                     
                     data.map(c => {
+                        
+
                         arr.push({
                             id: c.id,
                             title: c.title,
@@ -41,7 +44,9 @@ export default function Chamados() {
                             responsavel: treatName(c?.responsible?.name),
                             status: c.status.description,
                             descricao: c.description,
-                            abertura: formatStringDateFromBr(c?.created_at)
+                            abertura: formatStringDateFromBr(c?.created_at),
+                            status_id: c?.status?.id,
+                            status_description2: c?.status?.description2
                         });
                     });
 
@@ -66,7 +71,7 @@ export default function Chamados() {
                             keyExtractor={(e) => e.id}
                             data={data}
                             renderItem={
-                                ({ item }) => <Chamado data={item}  dataBruto={dataBruto} getChamados={getChamados} />
+                                ({ item }) => <Chamado data={item} getChamados={getChamados} dataBruto={dataBruto} />
                             } 
                         />
                         <ButtonAdd func={abrirChamado} />

@@ -8,6 +8,7 @@ export const Constants = {
     // Colors
     dPrimaryColor: "#18254f",
     dSecundaryColor: "#90c9de",
+    dGray: "#494C4E",
     dBackground: "#",
 
 }
