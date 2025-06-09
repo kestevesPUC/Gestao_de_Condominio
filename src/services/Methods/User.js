@@ -13,7 +13,7 @@ export const RecuperaTipoUsuario = async () => {
     return result;
 }
 
-export const AddUsuario = async (name, password, perfil, bloco, apto, email) => {
+export const AddUsuario = async (name, password, perfil, bloco, apto, email, photo) => {
     let result = {};
 
     await axios.post(route.user.add, {
@@ -23,6 +23,7 @@ export const AddUsuario = async (name, password, perfil, bloco, apto, email) => 
         "bloco": bloco,
         "apto": apto,
         "email": email,
+        "photo": photo,
     }).then((response) => {
         result = response.data;
     });

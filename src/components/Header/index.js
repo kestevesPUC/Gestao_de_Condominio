@@ -18,7 +18,10 @@ const size = 20;
 export default function Header() {
   const { usuario } = useContext(DataContext);
   const navigation = useNavigation();
-    const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  console.log(usuario);
+  
 
     
 
@@ -56,7 +59,7 @@ export default function Header() {
                 <Text style={styles.username} pt={Platform.OS == 'android' ? 5 : 10} pb={Platform.OS == 'android' ? 5 : 10}>{treatName(usuario.name)}</Text>
                 <TouchableOpacity activeOpacity={0.6} style={styles.buttonUser} onPress={toggleDropdown} >
                 <Image key={size} size={size} resizeMode="cover" source={{
-                    uri: ''
+                    uri: `data:image/jpeg;base64,${usuario.photo}`
                     }} alt={""} style={styles.buttonUser}/>
                     {renderDropdown()}
                 </TouchableOpacity>

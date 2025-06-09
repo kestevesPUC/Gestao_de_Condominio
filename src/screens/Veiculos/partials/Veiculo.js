@@ -21,11 +21,12 @@ const options = [
 
 export default function Veiculo(props) {
     const data = props.route.params;
+    console.log(data);
     
   return (
     <Box flex={1} >
         <HStack  h={300} >
-            <Picture imagem={data.imagens[0]} w={'100%'} radius={0} h={'auto'} />
+            <Picture imagem={`data:image/jpeg;base64,${data.imagens}`} w={'100%'} radius={0} h={'auto'} />
         </HStack>
         <Box bgColor={Constants.dPrimaryColor} >
             <Info data={data}/>

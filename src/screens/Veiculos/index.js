@@ -48,7 +48,8 @@ export default function Veiculos() {
               cor: v?.color?.name,
               imagens: v?.photo ?? "",
               proprietario: v?.userId,
-              vaga: v?.vaga
+              vaga: v?.vaga,
+              photo: v?.photo
             })
           })
 

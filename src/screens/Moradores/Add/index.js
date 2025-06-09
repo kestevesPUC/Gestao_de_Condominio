@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../../components/Header'
 import { Input } from 'native-base';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import { route } from '../../../config/route';
 import Select from '../../../components/Form/Select';
 import { AddUsuario, RecuperaTipoUsuario } from '../../../services/Methods/User';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -22,6 +23,9 @@ export default function Add() {
     const [foto, setFoto] = useState('');
     const [isLoad, setIsLoad] = useState(false);
     const [tiposUsuario, setTiposUsuario] = useState([]);
+
+
+    const [photo, setPhoto] = useState('');
 
 
     // useFocusEffect(
@@ -54,16 +58,58 @@ export default function Add() {
             alert('Senhas divergentes!');
             return;
         }
-        let result = await AddUsuario(name, password, 2, bloco, apto, email);
+        let result = await AddUsuario(name, password, 2, bloco, apto, email, photo.base64);
 
         if (result.success) {
-            alert("Sucesso!",result.message);
+            alert("Sucesso!", result.message);
         } else {
-            alert("Erro!",result.message);
+            alert("Erro!", result.message);
         }
 
 
     }
+
+    useEffect(() => {
+        verificarPermissao();
+    }, []);
+
+    const verificarPermissao = async () => {
+        const { status, canAskAgain } = await ImagePicker.getMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            if (!canAskAgain) {
+                Alert.alert(
+                    'Permissão necessária',
+                    'Você negou a permissão de galeria. Vá nas configurações do app para ativar.',
+                    [
+                        { text: 'Cancelar', style: 'cancel' },
+                        { text: 'Abrir configurações', onPress: () => Linking.openSettings() }
+                    ]
+                );
+            } else {
+                const { status: novoStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (novoStatus !== 'granted') {
+                    Alert.alert('Permissão negada', 'Sem permissão não é possível acessar a galeria.');
+                }
+            }
+        }
+    };
+
+    const selecionarImagem = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            const asset = result.assets[0];
+            setPhoto({
+                uri: asset.uri,
+                base64: asset.base64,
+            });
+        }
+    };
     return (
         <>
             {
@@ -72,6 +118,20 @@ export default function Add() {
                     <>
                         <Header />
                         <View style={styles.view}>
+                            <View style={{ marginTop: 5, justifyContent: "center", alignItems: "center" }}>
+
+                                {photo ?
+                                    <>
+                                        <TouchableOpacity onPress={selecionarImagem} >
+                                            <Image source={{ uri: photo.uri }} style={{ width: 200, height: 200, marginTop: 10 }} />
+                                        </TouchableOpacity>
+                                    </>
+                                    :
+                                    <>
+                                        <Button title="Selecionar a Imagem do veículo" onPress={selecionarImagem} />
+                                    </>
+                                }
+                            </View>
                             <View >
                                 <Text>Nome Completo</Text>
                                 <Input value={name} onChangeText={(text) => setName(text)} />

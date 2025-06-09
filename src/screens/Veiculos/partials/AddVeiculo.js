@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Button, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../../components/Header'
 import { FlatList, Input } from 'native-base';
@@ -11,12 +11,13 @@ import { route } from '../../../config/route';
 import Select from '../../../components/Form/Select';
 import { AddUsuario, RecuperaTipoUsuario } from '../../../services/Methods/User';
 import { CadastrarVeiculo, RecuperaInfoVeiculo } from '../../../services/Methods/Veiculo';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AddVeiculo() {
     const navigation = useNavigation();
     const [placa, setPlaca] = useState('');
     const [vaga, setVaga] = useState('');
-    const [foto, setFoto] = useState('');
+    const [photo, setPhoto] = useState('');
     const [isLoad, setIsLoad] = useState(false);
     const [listUsers, setListUsers] = useState([]);
     const [listTypes, setListTypes] = useState([]);
@@ -37,6 +38,10 @@ export default function AddVeiculo() {
             init()
         }, [])
     );
+
+    useEffect(() => {
+        verificarPermissao();
+    }, []);
 
     const init = async () => {
         setIsLoad(true);
@@ -106,8 +111,47 @@ export default function AddVeiculo() {
         setIsLoad(false);
     }
 
+    const verificarPermissao = async () => {
+        const { status, canAskAgain } = await ImagePicker.getMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            if (!canAskAgain) {
+                Alert.alert(
+                    'Permissão necessária',
+                    'Você negou a permissão de galeria. Vá nas configurações do app para ativar.',
+                    [
+                        { text: 'Cancelar', style: 'cancel' },
+                        { text: 'Abrir configurações', onPress: () => Linking.openSettings() }
+                    ]
+                );
+            } else {
+                const { status: novoStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (novoStatus !== 'granted') {
+                    Alert.alert('Permissão negada', 'Sem permissão não é possível acessar a galeria.');
+                }
+            }
+        }
+    };
+
+    const selecionarImagem = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            const asset = result.assets[0];
+            setPhoto({
+                uri: asset.uri,
+                base64: asset.base64,
+            });
+        }
+    };
+
+
     const click = async () => {
-        if(user == 0  || ano == null  || type == 0  || brand == 0 || color == 0 || color == 0 || model == 0  || placa == "" || vaga == "") {
+        if (user == 0 || ano == null || type == 0 || brand == 0 || color == 0 || color == 0 || model == 0 || placa == "" || vaga == "") {
             Alert.alert("Erro!", "Um ou mais campos obrigatórios não foram preenchidos.");
         }
         const data = {
@@ -119,6 +163,7 @@ export default function AddVeiculo() {
             model: model,
             placa: placa,
             vaga: vaga,
+            photo: photo.base64
         }
 
         const result = await CadastrarVeiculo(data);
@@ -130,7 +175,7 @@ export default function AddVeiculo() {
 
             Alert.alert("Erro!", result.message);
         }
-        
+
 
     }
     return (
@@ -141,9 +186,24 @@ export default function AddVeiculo() {
                     <>
                         <Header />
                         <FlatList
+                            keyExtractor={(item) => item.toString()}
                             data={[1]}
                             renderItem={(item) =>
                                 <View style={styles.view}>
+                                    <View style={{ marginTop: 5, justifyContent: "center", alignItems: "center" }}>
+
+                                        {photo ?
+                                            <>
+                                                <TouchableOpacity onPress={selecionarImagem} >
+                                                    <Image source={{ uri: photo.uri }} style={{ width: 200, height: 200, marginTop: 10 }} />
+                                                </TouchableOpacity>
+                                            </>
+                                            :
+                                            <>
+                                                <Button title="Selecionar a Imagem do veículo" onPress={selecionarImagem} />
+                                            </>
+                                        }
+                                    </View>
                                     <View style={styles.vInput}>
                                         <Select arr={listUsers} value={user} func={setUser} title="Proprietário" />
                                     </View>

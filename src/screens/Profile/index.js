@@ -11,7 +11,7 @@ import { FontAwesome5,Foundation } from '@expo/vector-icons';
 export default function Profile({ ...props }) {
   
   const profile = props.route.params;
-  console.log(profile);
+  console.log('aqui',profile[0].photo);
   
   const [data, setData] = useState([
     {
@@ -32,7 +32,7 @@ export default function Profile({ ...props }) {
     <Box flex={1}>
       <VStack >
         <HStack>
-            <Picture url={profile[0].avatarUrl} radius={0} w={'100%'} h={Platform.OS == 'android' ? 400 : 536} />
+            <Picture url={`data:image/jpeg;base64,${profile[0].photo}`} radius={0} w={'100%'} h={Platform.OS == 'android' ? 400 : 536} />
         </HStack>
         <Box p={3} bgColor={Constants.dPrimaryColor}>
           <Info profile={profile} />

@@ -6,11 +6,13 @@ import { Modals } from '../../../components/Modals';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function Morador({ ...props }) {    
+export default function Morador({ ...props }) {
     const navigation = useNavigation();
     const data = props.data.item;
-
+    console.log(data);
     
+
+
     return (
         <Box mb={5} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >
             <TouchableOpacity activeOpacity={0.6} borderRadius={22} onPress={
@@ -19,8 +21,12 @@ export default function Morador({ ...props }) {
                 }
             }>
                 <HStack >
+
                     <VStack justifyContent={'center'}>
-                        <Picture url={data.avatarUrl} />
+                        <Image
+                            source={{ uri: `data:image/jpeg;base64,${data.photo}` }}
+                            style={{ width: 80, height: 80, size: 20, borderRadius: 44 }}
+                        />
                     </VStack>
                     <VStack>
                         <HStack mt={3} ml={3}>
