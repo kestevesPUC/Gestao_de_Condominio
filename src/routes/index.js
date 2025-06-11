@@ -25,6 +25,8 @@ import CadastrarVisitante from "../screens/Visitantes/partials/addVisitante";
 import ReservaArea from "../screens/ReservaArea";
 import AddArea from "../screens/ReservaArea/partials/add";
 import dadosVeiculo from "../screens/Veiculos/partials/dadosVeiculo";
+import Encomendas from "../screens/Encomendas";
+import add from "../screens/Encomendas/partials/add";
 
 const Stack = createNativeStackNavigator();
 
@@ -146,6 +148,22 @@ export default function Routes() {
                 
               }} />
             <Stack.Screen name="dadosVeiculo"    component={dadosVeiculo} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="Encomendas"    component={Encomendas} options={{ 
+                headerShown: true, 
+                headerBackTitleVisible: false, 
+                title: '', 
+                headerTransparent: true, 
+                headerTintColor: 'white',  
+                
+              }} />
+            <Stack.Screen name="addEncomenda"    component={add} options={{ 
                 headerShown: true, 
                 headerBackTitleVisible: false, 
                 title: '', 

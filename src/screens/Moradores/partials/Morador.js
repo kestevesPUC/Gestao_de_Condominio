@@ -24,7 +24,7 @@ export default function Morador({ ...props }) {
 
                     <VStack justifyContent={'center'}>
                         <Image
-                            source={{ uri: `data:image/jpeg;base64,${data.photo}` }}
+                            source={{ uri: `data:image/jpeg;base64,${data.photo ?? ""}` }}
                             style={{ width: 80, height: 80, size: 20, borderRadius: 44 }}
                         />
                     </VStack>

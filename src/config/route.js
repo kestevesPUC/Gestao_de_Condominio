@@ -36,7 +36,14 @@ export const route = {
         upload: `${url}/api/administracao/upload`,
     },
     comunicados: {
-        listar:  `${url}/api/comunicados/list-all`,
+        listar:  `${url}/api/statement/list-all`,
+        create:  `${url}/api/statement/create`,
+        update:  `${url}/api/statement/update`,
+    },
+    encomendas: {
+        listar:  `${url}/api/order/list-all`,
+        salvar:  `${url}/api/order/save`,
+        update:  `${url}/api/order/update`,
     }
     
     

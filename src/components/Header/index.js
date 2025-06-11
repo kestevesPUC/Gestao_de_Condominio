@@ -18,12 +18,7 @@ const size = 20;
 export default function Header() {
   const { usuario } = useContext(DataContext);
   const navigation = useNavigation();
-  const [visible, setVisible] = useState(false);
-
-  console.log(usuario);
-  
-
-    
+  const [visible, setVisible] = useState(false);    
 
     const toggleDropdown = () => {
       setVisible(!visible);

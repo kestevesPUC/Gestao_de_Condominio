@@ -32,7 +32,7 @@ export default function Profile({ ...props }) {
     <Box flex={1}>
       <VStack >
         <HStack>
-            <Picture url={`data:image/jpeg;base64,${profile[0].photo}`} radius={0} w={'100%'} h={Platform.OS == 'android' ? 400 : 536} />
+            <Picture url={(profile[0].photo ? `data:image/jpeg;base64,${profile[0].photo ?? ""}` : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg")} radius={0} w={'100%'} h={Platform.OS == 'android' ? 400 : 536} />
         </HStack>
         <Box p={3} bgColor={Constants.dPrimaryColor}>
           <Info profile={profile} />

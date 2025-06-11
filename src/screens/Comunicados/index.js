@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Header from '../../components/Header'
 import Load from '../../components/Load'
 import { useFocusEffect } from '@react-navigation/native';
-import { ListarComunicados } from '../../services/Methods/Comunicados';
-import ComunicadoItem, { } from './partials/ComunicadoItem'
+import { ComunicadoItem } from './partials/ComunicadoItem';
+import { ListarComunicados } from '../../services/Methods/Statements'
 
 
 export default function Comunicados() {
@@ -20,8 +20,9 @@ export default function Comunicados() {
     const init = async () => {
         setLoad(true);
         const result = await ListarComunicados();
+        console.log(result);
         
-        setData(result)
+        setData(result);
         setLoad(false);
     }
 

@@ -8,7 +8,7 @@ export default function PerfilFuncionario({ ...props }) {
     const navigation = useNavigation();
     const data = props?.item;
 
-    console.log(data.item);
+    console.log(data.item.photo);
     
     return (
         <Box mb={5} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >
@@ -17,7 +17,7 @@ export default function PerfilFuncionario({ ...props }) {
             }>
                 <HStack >
                     <VStack justifyContent={'center'}>
-                        <Image key={20} size={props.size ?? 20} w={props.w ?? null} h={props.h ?? null} resizeMode="cover" source={{uri: props.url}} alt={"avatar"}  borderRadius={props.radius ?? 44}/>
+                        <Image key={20} size={20} resizeMode="cover" source={{uri: `data:image/jpeg;base64,${data.item.photo}`}} borderRadius={44}/>
                     </VStack>
                     <VStack>
                         <HStack mt={3} ml={3}>
