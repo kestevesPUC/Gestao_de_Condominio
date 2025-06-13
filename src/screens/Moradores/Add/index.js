@@ -128,7 +128,7 @@ export default function Add() {
                                     </>
                                     :
                                     <>
-                                        <Button title="Selecionar a Imagem do veículo" onPress={selecionarImagem} />
+                                        <Button title="Selecionar a Imagem do Morador" onPress={selecionarImagem} />
                                     </>
                                 }
                             </View>

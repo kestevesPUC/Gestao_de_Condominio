@@ -116,6 +116,11 @@ export default function AddFuncionario() {
                 isLoad ? <Load /> :
                     <>
                         <Header />
+                        <View style={styles.row}>
+                            <View style={styles.column}>
+                                <Text style={{ fontSize: 20, padding: 3, fontWeight: "bold" }}>Cadastrar Funcionário</Text>
+                            </View>
+                        </View>
                         <View style={styles.view}>
 
                             <View style={{ alignItems: "center", marginTop: 3, marginBottom: 3 }}>
@@ -128,7 +133,7 @@ export default function AddFuncionario() {
                                     </>
                                     :
                                     <>
-                                        <Button title="Selecionar a Imagem do veículo" onPress={selecionarImagem} />
+                                        <Button title="Selecionar a Imagem do Funcionário" onPress={selecionarImagem} />
                                     </>
                                 }
                             </View>
@@ -182,6 +187,14 @@ const styles = StyleSheet.create({
         marginRight: 5
 
     },
+    textButton: {
+        color: '#FFF',
+        fontSize: 20,
+        padding: 10,
+        fontWeight: 'bold',
+
+    },
+
     textButton: {
         color: '#FFF',
         fontSize: 20,

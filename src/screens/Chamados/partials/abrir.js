@@ -5,28 +5,33 @@ import { Constants } from '../../../helpers/constants';
 import axios from 'axios';
 import { route } from '../../../config/route';
 import { DataContext } from '../../../hooks/DataProvider';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AbrirChamado() {
     const { usuario } = useContext(DataContext)
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-    const clickAbrirChamado = async () => {        
+    const navigation = useNavigation();
+
+
+    const clickAbrirChamado = async () => {
         const result = await axios.post(route.called.create, {
             title: title,
             description: description,
             applicantId: usuario.id
         })
-        .then((response) => {
-            let result = response.data;
-            if(result.success) {
+            .then((response) => {
+                let result = response.data;
+                if (result.success) {
 
-                Alert.alert("Sucesso!", result.message)
-            }else {
-                
-                Alert.alert("Erro!", result.message)
-            }
-        });
+                    Alert.alert("Sucesso!", result.message);
+                    navigation.goBack();
+                } else {
+
+                    Alert.alert("Erro!", result.message)
+                }
+            });
     }
     return (
         <>
@@ -41,7 +46,7 @@ export default function AbrirChamado() {
                     <View style={Styles.row}>
                         <View style={Styles.column}>
                             <Text style={Styles.label}>Titulo:</Text>
-                            <TextInput onChangeText={(e) => setTitle(e) } style={Styles.input}></TextInput>
+                            <TextInput onChangeText={(e) => setTitle(e)} style={Styles.input}></TextInput>
                         </View>
                     </View>
                     <View style={Styles.row}>
@@ -50,7 +55,7 @@ export default function AbrirChamado() {
                             <TextInput
                                 multiline={true}
                                 numberOfLines={10}
-                                onChangeText={(e) => setDescription(e) }
+                                onChangeText={(e) => setDescription(e)}
                                 placeholder=" Digite sua mensagem..."
                                 style={Styles.textArea}
                             />

@@ -41,7 +41,7 @@ export default function Encomendas() {
                         <>
                             <View style={Styles.row}>
                                 <View style={Styles.column}>
-                                    <Text style={{ fontSize: 20, padding: 3, fontWeight: "bold" }}>Lista de encomendas</Text>
+                                    <Text style={{ fontSize: 20, padding: 3, fontWeight: "bold" }}>Encomendas</Text>
                                 </View>
                             </View>
 

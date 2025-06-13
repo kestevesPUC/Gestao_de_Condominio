@@ -21,6 +21,7 @@ export default function DetalhesChamado({ ...props }) {
     const [statusSelected, setStatusSelected] = useState(chamado.status_id);
     const [isLoad, setIsLoad] = useState(false);
     const [tela, setTela] = useState(1);
+    const [statusChamado, setStatusChamado] = useState(chamado.status_id)
 
     const navigation = useNavigation();
     useFocusEffect(
@@ -45,6 +46,7 @@ export default function DetalhesChamado({ ...props }) {
 
             if (data.success) {
                 Alert.alert("Sucesso!", data.message);
+                setStatusChamado(2)
                 props.route.params.getChamados();
             } else {
                 Alert.alert("Erro!", data.message);
@@ -132,7 +134,7 @@ export default function DetalhesChamado({ ...props }) {
                                     <View style={Styles.vInput}>
                                         
                                         {
-                                            chamado.status_id != 3  && chamado.status_id != 1 ?
+                                            statusChamado != 3  && statusChamado != 1 ?
                                             <Select arr={status} value={statusSelected} func={setStatusSelected} title="" />
                                             : <Text style={Styles.label}>Status: {chamado.status_description2}</Text>
                                         }
@@ -141,7 +143,7 @@ export default function DetalhesChamado({ ...props }) {
 
                                     <>
                                         {
-                                            chamado.status_id != 3 && chamado.status_id != 1 ?
+                                            statusChamado != 3 && statusChamado != 1 ?
                                                 <View style={Styles.row3}>
                                                     <View style={Styles.column}>
                                                         <Text style={Styles.label}>Observação:</Text>
@@ -189,13 +191,13 @@ export default function DetalhesChamado({ ...props }) {
                         }
                         <>
                             {
-                                chamado.status_id == 1 ?
+                                statusChamado == 1 ?
                                     <TouchableOpacity style={Styles.button} onPress={clickIniciar}>
                                         <Text style={Styles.textButton}>Iniciar atendimento</Text>
                                     </TouchableOpacity> :
                                     <>
                                         {
-                                            tela == 1 && chamado.status_id != 3 ?
+                                            tela == 1 && statusChamado != 3 ?
                                                 <TouchableOpacity style={Styles.button} onPress={clickAtualizar}>
                                                     <Text style={Styles.textButton}>Atualizar</Text>
                                                 </TouchableOpacity> : null

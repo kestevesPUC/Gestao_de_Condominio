@@ -35,7 +35,7 @@ export default function Moradores({ ...props }) {
     try {
       const result = await ListarUsuario();
       setData(result.data)
-      setFilteredData(result.data)      
+      setFilteredData(result.data)
 
     } catch (err) {
       console.log(err);
@@ -106,10 +106,10 @@ export default function Moradores({ ...props }) {
           <>
             <Header />
             <>
-                  <View style={{ padding: 10 }}>
-                    <Input placeholder='Pesquisar Morador' value={search} onChangeText={async (text) => searchMorador(text)} />
-                  </View>
-                </>
+              <View style={{ padding: 10 }}>
+                <Input placeholder='Pesquisar Morador' value={search} onChangeText={async (text) => searchMorador(text)} />
+              </View>
+            </>
             <FlatList
               keyExtractor={(item) => item.id.toString()}
               data={filteredData}

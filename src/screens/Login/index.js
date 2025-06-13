@@ -27,7 +27,7 @@ export default function Login() {
     <>
         <View style={styles.container}>
             <View>
-                <Image  source={require('../../../assets/logo.png')}/>
+                <Image width={500} h={500} source={require('../../../assets/logo2.png')}/>
                 <View style={styles.viewInput}>
                     <Text style={styles.label}  >E-mail</Text>
                     <Input bgColor={'#DADADA'} value={inptUser} onChangeText={(text) => setInptUser(text)}/>

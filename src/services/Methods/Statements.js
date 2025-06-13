@@ -15,10 +15,10 @@ export const ListarComunicados = async () => {
     return result;
 }
 
-export const CriarComunicado = async (title, description, photo = "") => {
+export const CriarComunicado = async (title, mensagem, photo = "") => {
     let result = {};
 
-    await axios.post(route.comunicados.create, { title: title, description: description, photo: photo })
+    await axios.post(route.comunicados.create, { title: title, mensagem: mensagem, photo: photo })
         .then(response => {
             result = response.data;
         })

@@ -2,7 +2,7 @@ import { Box, FlatList, Input } from 'native-base';
 import React, { useState } from 'react'
 import Header from '../../components/Header';
 import { Constants } from '../../helpers/constants';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Serach from '../../components/buttons/Round/Search';
 import ListItem from './partials/ListItem';
 import ButtonAdd from '../../components/buttons/ButtonAdd';
@@ -15,6 +15,8 @@ import Load from '../../components/Load';
 export default function Veiculos() {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
+  const [search, setSearch] = useState("")
+  const [filteredData, setFilteredData] = useState();
 
   const navigation = useNavigation();
   useFocusEffect(
@@ -34,9 +36,9 @@ export default function Veiculos() {
         result = response.data;
 
         console.log(response);
-        if(result?.success) {
+        if (result?.success) {
           let data = result.data;
-          
+
           data.map(v => {
             arr.push({
               id: v?.id,
@@ -53,23 +55,43 @@ export default function Veiculos() {
             })
           })
 
+          setFilteredData(arr)
           setData(arr)
+
         } else {
           alert(result.message)
         }
-        
+
 
       }).catch(error => {
         console.error(error);
       });
-      
-      
-      setLoad(false)
 
-      
+
+    setLoad(false)
+
+
   }
 
-  
+
+  const searchVeiculo = async (search) => {
+    setSearch(search);
+
+    if (search === '') {
+      setFilteredData(data);
+    } else {
+      const searchLower = search.toLowerCase();
+
+      const filtered = data.filter(item => {
+        const itemString = JSON.stringify(item).toLowerCase();
+        return itemString.includes(searchLower);
+      });
+
+      setFilteredData(filtered);
+    }
+  };
+
+
   const add = () => {
     navigation.navigate("CriarVeiculo")
   }
@@ -80,9 +102,14 @@ export default function Veiculos() {
         load ? <Load /> :
           <Box flex={1} >
             <Header />
+            <>
+              <View style={{ padding: 10 }}>
+                <Input placeholder='Pesquisar Veículo' value={search} onChangeText={((text) => searchVeiculo(text))} />
+              </View>
+            </>
             <FlatList
               keyExtractor={(item) => item.id.toString()}
-              data={data}
+              data={filteredData}
               renderItem={(item) =>
                 <ListItem data={item} />
               }
