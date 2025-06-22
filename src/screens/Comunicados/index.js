@@ -46,8 +46,6 @@ export default function Comunicados() {
                             data={data}
                             showsHorizontalScrollIndicator={true}
                             renderItem={({ item }) => (
-                                console.log(item),
-
                                 <Item item={item} />
                             )}
                         />

@@ -35,7 +35,6 @@ export default function Veiculos() {
       .then((response) => {
         result = response.data;
 
-        console.log(response);
         if (result?.success) {
           let data = result.data;
 

@@ -7,8 +7,6 @@ import { Text, TouchableOpacity } from 'react-native';
 export default function PerfilFuncionario({ ...props }) {
     const navigation = useNavigation();
     const data = props?.item;
-
-    console.log(data.item.photo);
     
     return (
         <Box mb={5} fontSize={25} bgColor={'#FFF'} fontWeight={'bold'} ml={3} mr={3} >

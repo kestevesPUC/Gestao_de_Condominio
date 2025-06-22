@@ -7,7 +7,6 @@ import { Constants } from '../../../../helpers/constants';
 
 export default function Serach({ ...props }) {
     const clickSerach = () => {
-        console.log('clicou');
     }
   return (
     <Box position={'absolute'} bottom={10} right={3} opacity={90}>

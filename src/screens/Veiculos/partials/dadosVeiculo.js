@@ -3,8 +3,6 @@ import React from 'react'
 
 export default function dadosVeiculo({ ...props }) {
 
-    console.log(props);
-
     return (
         <View>
             <Text>dadosVeiculo</Text>

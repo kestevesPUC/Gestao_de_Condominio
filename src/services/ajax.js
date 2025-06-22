@@ -7,7 +7,6 @@ class Ajax extends Component {
     async get (url, params)  {
         let result = {};
         await axios.post(url, params).then(response => {
-            console.log(response.data);
             
             result = response.data;
             
@@ -22,7 +21,6 @@ class Ajax extends Component {
     async post (url, params) {
         let result = {};
         await axios.post(url, params).then(response => {
-            console.log(response.data);
             
             result = response.data;
             

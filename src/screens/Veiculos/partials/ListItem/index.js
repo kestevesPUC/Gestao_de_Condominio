@@ -9,7 +9,6 @@ import { Constants } from '../../../../helpers/constants';
 export default function ListItem({ ...props }) {
     const navigation = useNavigation();
     const data = props.data.item;
-    console.log(data);
 
     const clickVeiculo = () => {
         navigation.navigate('Veiculo', data);

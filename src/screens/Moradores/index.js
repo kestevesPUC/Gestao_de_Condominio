@@ -38,7 +38,6 @@ export default function Moradores({ ...props }) {
       setFilteredData(result.data)
 
     } catch (err) {
-      console.log(err);
 
       // setError(err.message);
     } finally {

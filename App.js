@@ -5,9 +5,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import Routes from './src/routes'
 import { Constants } from "./src/helpers/constants";
 import { DataProvider } from "./src/hooks/DataProvider";
+import { LogBox } from 'react-native';
 
 export default function App() {
-
+  LogBox.ignoreLogs([
+    'Warning: ...', // Parte da mensagem do aviso
+    'Deprecation warning: ...'
+  ]);
   return (
     <NativeBaseProvider>
       <NavigationContainer>

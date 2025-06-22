@@ -49,7 +49,6 @@ export default function AddArea() {
 
 
     const handleChange = (event, selectedDate) => {
-        console.log(selectedDate);
 
         const currentDate = selectedDate || dataInit;
         setShow(false);
@@ -72,7 +71,6 @@ export default function AddArea() {
             responsavel: usuario.id
         };
        
-        console.log(data);
 
         const result = await ReservarArea(data);        
 

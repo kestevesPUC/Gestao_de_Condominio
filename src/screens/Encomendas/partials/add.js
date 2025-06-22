@@ -38,7 +38,6 @@ export default function add() {
 
     const click = async () => {
         const result = await Salvar(photo.base64);
-        console.log(result);
 
         if (result.success) {
             Alert.alert("Sucesso!", result.message);

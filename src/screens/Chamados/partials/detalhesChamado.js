@@ -13,7 +13,7 @@ import Select from '../../../components/Form/Select';
 
 export default function DetalhesChamado({ ...props }) {
     const chamado = props.route.params;
-
+    
     const { usuario } = useContext(DataContext)
     const [historico, setHistorico] = useState();
     const [description, setDescription] = useState("");
@@ -113,7 +113,7 @@ export default function DetalhesChamado({ ...props }) {
                                 <View style={Styles.container}>
                                     <View style={Styles.row}>
                                         <View style={Styles.column}>
-                                            <Text style={Styles.title} >Chamdo: {chamado.id}</Text>
+                                            <Text style={Styles.title} >Chamado: {chamado.id}</Text>
                                         </View>
                                     </View>
                                     <View style={Styles.row}>
@@ -123,7 +123,7 @@ export default function DetalhesChamado({ ...props }) {
                                     </View>
                                     <View style={Styles.row}>
                                         <View style={Styles.column}>
-                                            <Text style={Styles.label}>Descrição: {chamado.description}</Text>
+                                            <Text style={Styles.label}>Descrição: {chamado.descricao}</Text>
                                         </View>
                                     </View>
                                     <View style={Styles.row}>

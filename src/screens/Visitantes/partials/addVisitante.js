@@ -43,7 +43,6 @@ export default function CadastrarVisitante() {
     };
 
     const click = async () => {
-        console.log(dataInit);
 
         const data = {
             cpf: cpf,
@@ -54,7 +53,6 @@ export default function CadastrarVisitante() {
             motivo: motivo,
             responsavel: usuario.id
         };
-        console.log(data);
 
         const result = await RegistrarVisitante(data);
 

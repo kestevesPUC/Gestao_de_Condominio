@@ -93,13 +93,13 @@ export default function AddComuinicado() {
                         </View>
                         {photo ?
                             <>
-                                <TouchableOpacity onPress={selecionarImagem} >
+                                <TouchableOpacity style={{ marginTop: 5 }} onPress={selecionarImagem} >
                                     <Image source={{ uri: photo.uri }} style={{ width: 200, height: 200, marginTop: 10 }} />
                                 </TouchableOpacity>
                             </>
                             :
                             <>
-                                <Button title="Adicione uma imagem" onPress={selecionarImagem} />
+                                <Button style={{ marginTop: 5 }}  title="Adicione uma imagem" onPress={selecionarImagem} />
                             </>
                         }
 

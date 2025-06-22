@@ -9,9 +9,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Option({ ...props }) {
 
   const data = props.data.item;
+
   return (
-    <TouchableOpacity>
-      <Box bgColor={Constants.dSecundaryColor} h={147} borderBottomColor={Constants.dPrimaryColor} borderBottomWidth={0.5} justifyContent={'center'}>
+    <TouchableOpacity onPress={data.click} >
+      <Box bgColor={Constants.dSecundaryColor} h={160} borderBottomColor={Constants.dPrimaryColor} borderBottomWidth={0.5} justifyContent={'center'}>
         <HStack justifyContent={'space-evenly'}>
           <VStack >
             <Center>

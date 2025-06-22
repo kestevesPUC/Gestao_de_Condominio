@@ -21,7 +21,6 @@ const options = [
 
 export default function Veiculo(props) {
     const data = props.route.params;
-    console.log(data);
     
   return (
     <Box flex={1} >

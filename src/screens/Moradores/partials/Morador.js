@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 export default function Morador({ ...props }) {
     const navigation = useNavigation();
     const data = props.data.item;
-    console.log(data);
     
 
 

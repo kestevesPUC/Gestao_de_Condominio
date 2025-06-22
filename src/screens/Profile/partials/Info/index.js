@@ -7,6 +7,7 @@ export default function Info({ ...props }) {
     const profile = props.profile[0]
     const openModal = props.profile[1];
     const bodyModal = props.profile[2];
+    console.log(profile);
     
     const clickBell = async () => {   
         await bodyModal(profile);
@@ -22,7 +23,7 @@ export default function Info({ ...props }) {
                         <Text fontSize={15} color={'#FFF'} fontWeight={'bold'}>{profile.name}</Text>
                     </Box>
                     <Box>
-                        <Text fontSize={13} color={'#FFF'} >Bloco {profile.bloco} Apartamento {profile.apartamento}</Text>
+                        <Text fontSize={13} color={'#FFF'} >Bloco {profile.apartment.bloco} Apartamento {profile.apartment.number}</Text>
                     </Box>
                 </Box>
             </VStack>
